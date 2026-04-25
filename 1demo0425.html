@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財團法人張老師基金會 - 守護平台</title>
+    <style>
+        :root {
+            --red-btn: #ff4757;
+            --blue-btn: #2f3542;
+            --bg-color: #f1f2f6;
+            --card-gold: #f1c40f;
+        }
+
+        body {
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .page { display: none; }
+        .active { display: block; animation: fadeIn 0.5s forwards; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* 第一頁按鈕 */
+        .btn-main {
+            width: 100%;
+            padding: 20px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .btn-main:active { transform: scale(0.95); }
+        .red { background-color: var(--red-btn); }
+        .blue { background-color: var(--blue-btn); }
+
+        /* 第二頁：卡牌掉落特效 */
+        .card-container {
+            perspective: 1000px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            width: 200px;
+            height: 280px;
+            background: linear-gradient(135deg, #ffffff 0%, #f1f2f6 100%);
+            border: 5px solid var(--card-gold);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2f3542;
+            transform: translateY(-600px) rotate(20deg);
+            opacity: 0;
+        }
+        .drop-animation {
+            animation: cardDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes cardDrop {
+            to { transform: translateY(0) rotate(0deg); opacity: 1; }
+        }
+
+        /* 第三頁：便利貼樣式 */
+        .post-it {
+            background: #fff9c4;
+            padding: 30px;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            background: transparent;
+            border: none;
+            border-bottom: 1px dashed #d4d4d4;
+            resize: none;
+            font-size: 1.1rem;
+            outline: none;
+        }
+        .btn-confirm {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* 第四頁：成功文字 */
+        .success-text {
+            font-size: 1.8rem;
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="page1" class="page active">
+        <h1 style="color: #2f3542; margin-bottom: 40px;">財團法人張老師基金會</h1>
+        <button class="btn-main red" onclick="goPage(2)">領取情緒小卡</button>
+        <button class="btn-main blue" onclick="goPage(3)">匿名說說心事</button>
+    </div>
+
+    <div id="page2" class="page">
+        <div class="card-container">
+            <div id="emotionCard" class="card">情緒小卡</div>
+        </div>
+        <button class="btn-main" style="background:#747d8c; margin-top:30px;" onclick="location.reload()">回首頁</button>
+    </div>
+
+    <div id="page3" class="page">
+        <h2 style="margin-bottom: 20px;">給張老師的一封信</h2>
+        <div class="post-it">
+            <textarea placeholder="在這裡寫下你的心情..."></textarea>
+            <button class="btn-confirm" onclick="goPage(4)">確定發送</button>
+        </div>
+    </div>
+
+    <div id="page4" class="page">
+        <div class="success-text">✨ 張老師已收到 ✨</div>
+        <p style="color: #747d8c; margin-top: 20px;">別擔心，我們會一直陪伴著你。</p>
+        <button class="btn-main" style="background:#747d8c;" onclick="location.reload()">再聊一次</button>
+    </div>
+</div>
+
+<script>
+    function goPage(pageNum) {
+        // 隱藏所有頁面
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        
+        // 顯示指定頁面
+        const targetPage = document.getElementById('page' + pageNum);
+        targetPage.classList.add('active');
+
+        // 如果是第二頁，觸發掉落特效
+        if (pageNum === 2) {
+            const card = document.getElementById('emotionCard');
+            card.classList.add('drop-animation');
+        }
+    }
+</script>
+
+</body>
+</html>
